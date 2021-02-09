@@ -1,0 +1,79 @@
+#!/bin/env python
+
+import sys
+
+class Kabao():
+    "   　 　∩＿∩　　　　　人人人人人人人人人人人人人人人人人人人人人人人人人人人人人人人人"
+    "　　 ／ ＼ ／＼　　　＜ すごい一体感を感じる。今までにない何か熱い一体感を。          ＞"
+    "　　|  (ﾟ)=(ﾟ) |　　 ＜ 風・・・なんだろう吹いてきてる確実に、着実に、俺たちのほうに。＞"
+    "　　|    ●_●    |　  ＜ 中途半端はやめよう、とにかく最後までやってやろうじゃん。       ＞"
+    "　 /　　　　　  ヽ　 ＜ ネットの画面の向こうには沢山の仲間がいる。決して一人じゃない。＞"
+    "　| 〃 ------ ヾ | 　＜ 信じよう。そしてともに戦おう。                                ＞"
+    " 　＼＿＿二＿＿ノ　  ＜ 工作員や邪魔は入るだろうけど、絶対に流されるなよ。　　　　　　＞"
+    "　　　　　　　　　　 ＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹ"
+
+    def __init__(self, serif):
+        self.kao = self.generate_kabao().split("\n")[1:-2]
+        self.serif = serif
+        self.col = len(max(serif, key=len))
+        self.row = max(6, len(self.serif)+1)
+        self.spacing_kao()
+        self.spacing_serif()
+        self.insert_serif()
+
+
+    def __str__(self):
+        return "\n".join(self.kao)
+
+    def generate_kabao(self):
+        return """
+   　 　∩＿∩　　　　　
+　　 ／ ＼ ／＼　　　
+　　|  (ﾟ)=(ﾟ) |　　 
+　　|    ●_●    |　  
+　 /　　　　　  ヽ　 
+　| 〃 ------ ヾ | 　
+ 　＼＿＿二＿＿ノ　  
+　　　　　　　　　　 
+"""
+
+    def insert_serif(self):
+        self.kao[0] += "人" * self.col
+        for i, s in enumerate(self.serif, start=1):
+            if len(s) < self.col:
+                s += "　" * (self.col - len(s))
+            self.kao[i] += "＜" + s + "＞"
+        self.kao.append("　　　　　　　　　　 " + "Ｙ" * self.col)
+
+
+
+    def spacing_serif(self):
+        if len(self.serif) < 6:
+            [self.serif.append("　"*self.col) for _ in
+        range(6-len(self.serif))]
+
+    def spacing_kao(self):
+        if len(self.kao) < self.row:
+            [self.kao.append("　　　　　　　　　　 ") for _ in range(self.row-len(self.kao))]
+
+
+def _void_f(*args, **kwargs):
+    pass
+
+
+def get_input():
+    return [l.rstrip() for l in sys.stdin.readlines()]
+
+def main():
+    try:
+        text = get_input()
+        kabao = Kabao(text)
+        print(kabao)
+    except (BrokenPipeError, IOError):
+        sys.stdout.write = _void_f
+        sys.stdout.flush = _void_f
+        sys.exit()
+
+
+if __name__ == "__main__":
+    main()
